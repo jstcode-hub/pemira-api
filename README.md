@@ -1,66 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 Pemira API Backend Setup Guide (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Hey there! Welcome to the setup guide for the Pemira API backend, built with Laravel. Follow these steps to get everything running smoothly on your local server.
 
-## About Laravel
+## 📝 Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Before you begin, make sure your device has the following:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **PHP**: Version **8.1** or higher (recommended for this Laravel version)
+-   **Composer**: To manage PHP dependencies
+-   **MySQL**: Version **5.7** or higher for the database
+-   **Node.js** and **npm**: Needed if the app uses frontend assets or Laravel Mix
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ⚙️ Setup Steps
 
-## Learning Laravel
+### 1. Clone the Repository
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Clone the backend repository from GitHub and navigate to the project directory:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone https://github.com/jstcode-hub/pemira-api.git
+cd pemira-api
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Install Dependencies
 
-## Laravel Sponsors
+Install all Laravel dependencies using Composer. If you run into any PHP version issues, try the alternative command below.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### Main Command
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+#### Alternative (If You Have PHP Version Issues)
 
-## Contributing
+If there’s a PHP version mismatch on your device, add the `--ignore-platform-reqs` flag to skip version checks:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+composer install --ignore-platform-reqs
+```
 
-## Code of Conduct
+> **Note**: The `--ignore-platform-reqs` flag can be a quick fix, but it’s best to use PHP version 8.1 or higher to fully match Laravel’s requirements.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 3. Create the `.env` Configuration File
 
-## Security Vulnerabilities
+Copy the `.env.example` file to create a new `.env` file to configure the app:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+```
 
-## License
+### 4. Update Your `.env` File
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Open the `.env` file you just created, and update it with your MySQL database details as shown below:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password
+```
+
+### 5. Generate an Application Key
+
+Laravel needs an application key for encryption. You can generate one with the command:
+
+```bash
+php artisan key:generate
+```
+
+### 6. Migrate the Database
+
+Now, migrate the required tables to your MySQL database:
+
+```bash
+php artisan migrate
+```
+
+### 7. Run the Seeder
+
+Populate the database with initial data using the seeder:
+
+```bash
+php artisan db:seed
+```
+
+### 8. Link Storage
+
+To make public storage accessible, create a symbolic link with the following command:
+
+```bash
+php artisan storage:link
+```
+
+### 9. Start the Laravel Server
+
+After everything is set up, start the Laravel server locally with:
+
+```bash
+php artisan serve
+```
+
+The app will be running at [http://localhost:8000](http://localhost:8000).
+
+---
+
+## 🎯 Troubleshooting
+
+-   **Database connection issues?** Double-check your MySQL configuration in the `.env` file.
+-   **Composer or PHP errors?** Make sure your PHP version meets the minimum requirement (8.1 or higher).
+
+---
+
+## 🤝 Contributing
+
+If you’ve been added as a collaborator, please follow these contribution guidelines to keep everything organized:
+
+1. **Create a New Branch**  
+   Each collaborator should create their own branch for development using the format `[role]-[name]`. For example:
+
+    ```bash
+    git checkout -b backend-dev-john
+    ```
+
+    or
+
+    ```bash
+    git checkout -b backend-feature-ana
+    ```
+
+2. **Push to Your Branch**  
+   After making changes, push them to your branch:
+
+    ```bash
+    git push origin backend-dev-john
+    ```
+
+3. **Create a Pull Request**  
+   Once your changes are ready, create a pull request from your branch to the main branch. All pull requests will be reviewed before merging.
+
+> **Note**: Be sure to follow the branch naming format above, and make sure your pull request is ready for review so it can be merged into the main branch.
+
+---
+
+Good luck with the setup, and happy coding! If you run into any issues, feel free to reach out. Hope it all goes smoothly! 😄

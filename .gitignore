@@ -1,19 +1,49 @@
-/.phpunit.cache
+# Laravel specific files
+/vendor
 /node_modules
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
+/storage/*.log
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs
 .env
-.env.backup
-.env.production
+.env.*
+
+# PHPUnit
+.phpunit.cache
 .phpunit.result.cache
+
+# Ignoring temporary files
 Homestead.json
 Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
-/.fleet
+.pnp.*
+.fleet
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Laravel Mix
+/public/mix-manifest.json
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+
+# Editor directories and files
 /.idea
 /.vscode
+
+# Logs and debug files
+*.log
+
+# Additional files and folders
+/.env.backup
+/.env.production
