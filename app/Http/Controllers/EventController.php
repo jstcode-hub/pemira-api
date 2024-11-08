@@ -9,6 +9,8 @@ use App\Models\WhiteList;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\BallotExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class EventController extends Controller
 {
@@ -30,6 +32,11 @@ class EventController extends Controller
             "whitelists_count" => $whitelists_count,
             "organizers_count" => $organizers_count
         ]);
+    }
+    
+    public function downloadBallots($event)
+    {
+        return Excel::download(new BallotExport($event), 'data hasil pemilihan.xlsx');
     }
 
     public function store(Request $request)
