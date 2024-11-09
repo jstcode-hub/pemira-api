@@ -1,21 +1,35 @@
 <IfModule mod_rewrite.c>
+    # Nonaktifkan MultiViews dan Indexes untuk keamanan
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
+    # Aktifkan mod_rewrite
     RewriteEngine On
 
-    # Handle Authorization Header
+    # Tangani Authorization Header untuk API
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Redirect Trailing Slashes If Not A Folder...
+    # Redirect Trailing Slashes Jika Bukan Folder
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller...
+    # Kirim Semua Request ke Front Controller (index.php)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    # Tangani Preflight Request (OPTIONS)
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ - [R=200,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Izinkan CORS hanya untuk domain tertentu
+    Header set Access-Control-Allow-Origin "https://pemira-zeta.vercel.app"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header set Access-Control-Allow-Headers "Content-Type, X-XSRF-TOKEN, Authorization, X-Requested-With, cache-control"
+    Header set Access-Control-Allow-Credentials "true"
 </IfModule>
