@@ -28,8 +28,9 @@ jobs:
 
       - name: Set up SSH
         run: |
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Store the SSH private key in the correct location
+          chmod 600 ~/.ssh/id_rsa  # Secure the private key with proper permissions
           # Menambahkan server ke known_hosts untuk menghindari prompt
           ssh-keyscan -t rsa 153.92.11.126 >> ~/.ssh/known_hosts  # Ganti dengan alamat server Anda.
 
