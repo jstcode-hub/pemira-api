@@ -28,11 +28,21 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir ~/.ssh
+          mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Store the SSH private key in the correct location
           chmod 600 ~/.ssh/id_rsa  # Secure the private key with proper permissions
           # Menambahkan server ke known_hosts untuk menghindari prompt
           ssh-keyscan -p 65002 153.92.11.126 >> ~/.ssh/known_hosts  # Ganti dengan alamat server Anda.
+
+      - name: Generate .env file from GitHub Secrets
+        run: |
+          cp .env.example .env
+
+          # Mengganti variabel di dalam file .env dengan nilai dari GitHub Secrets
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
 
       - name: Deploy to Shared Hosting
         run: |
