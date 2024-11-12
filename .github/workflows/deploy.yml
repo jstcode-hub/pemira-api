@@ -36,7 +36,7 @@ jobs:
 
       - name: Deploy to Shared Hosting
         run: |
-          ssh -o StrictHostKeyChecking=no u531289105@153.92.11.126 "
+          ssh -p 65002 -o StrictHostKeyChecking=no u531289105@153.92.11.126 "
             cd /home/u531289105/public_html &&
             git pull origin main &&
             composer install --no-interaction --prefer-dist &&
