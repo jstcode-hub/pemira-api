@@ -32,7 +32,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Store the SSH private key in the correct location
           chmod 600 ~/.ssh/id_rsa  # Secure the private key with proper permissions
           # Menambahkan server ke known_hosts untuk menghindari prompt
-          ssh-keyscan -p -t rsa 153.92.11.126 >> ~/.ssh/known_hosts  # Ganti dengan alamat server Anda.
+          ssh-keyscan -p 65002 153.92.11.126 >> ~/.ssh/known_hosts  # Ganti dengan alamat server Anda.
 
       - name: Deploy to Shared Hosting
         run: |
