@@ -102,6 +102,7 @@ class EventController extends Controller
         }
 
         $events->open_election_at = now();
+        $events->is_open = true;
         $events->close_election_at = null;
         $events->save();
 
@@ -111,6 +112,7 @@ class EventController extends Controller
     public function CloseElection(Request $request, Event $event)
     {
         $event->close_election_at = now();
+        $events->is_open = false;
         $event->save();
 
         return response()->json(['message' => 'Event close date has set successfully']);
