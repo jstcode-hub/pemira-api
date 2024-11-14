@@ -11,24 +11,30 @@ return [
     | or "CORS". This determines what cross-origin operations may execute
     | in web browsers. You are free to adjust these settings as needed.
     |
-    | To learn more: https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
-    |
     */
 
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
+    // Izinkan semua metode HTTP
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    // Tambahkan semua domain frontend yang terhubung
+    'allowed_origins' => [
+        'https://pemira-zeta.vercel.app',
+        'http://localhost:3000',
+        'https://pemira.sandboxdevlab.com'
+    ],
 
     'allowed_origins_patterns' => [],
 
+    // Izinkan semua header atau tentukan secara spesifik
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => ['Access-Control-Allow-Origin'],
+    // Header yang dapat diekspos ke frontend
+    'exposed_headers' => ['X-XSRF-TOKEN'],
 
     'max_age' => 0,
 
+    // Perlu diaktifkan jika Anda menggunakan cookies atau otentikasi berbasis sesi
     'supports_credentials' => true,
-
 ];

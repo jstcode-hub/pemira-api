@@ -20,6 +20,7 @@ use App\Http\Controllers\WhiteListController;
 |
 */
 
+
 Route::prefix('events')->middleware(['auth:sanctum'])->group(function () {
     Route::get('/{event}', [EventController::class, 'show']);
 
@@ -27,8 +28,8 @@ Route::prefix('events')->middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [EventController::class, 'index']);
         Route::post('/', [EventController::class, 'store']);
         Route::get('/{event}/summary', [EventController::class, 'summary']);
-        Route::get('/{event}/download/ballots', [EventController::class, 'downloadBallots']);
         Route::post('/{event}/open', [EventController::class, 'OpenElection']);
+        Route::get('/{event}/download/ballots', [EventController::class, 'downloadBallots']);
         Route::post('/{event}/close', [EventController::class, 'CloseElection']);
         Route::delete('/{event}', [EventController::class, 'deleteEvent']);
         Route::put('/{event}', [EventController::class, 'update']);
