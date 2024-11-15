@@ -3,8 +3,8 @@ name: Laravel CI/CD with GitHub Actions to Shared Hosting
 on:
   push:
     branches:
-      - main # Hanya berjalan saat ada perubahan di branch main.
-
+      - main 
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1" # Sesuaikan dengan versi PHP di hosting Anda.
+          php-version: "8.1" 
           extensions: mbstring, bcmath, xml
 
   deploy:

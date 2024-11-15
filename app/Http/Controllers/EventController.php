@@ -33,7 +33,7 @@ class EventController extends Controller
             "organizers_count" => $organizers_count
         ]);
     }
-    
+
     public function downloadBallots($event)
     {
         return Excel::download(new BallotExport($event), 'data hasil pemilihan.xlsx');
@@ -112,7 +112,7 @@ class EventController extends Controller
     public function CloseElection(Request $request, Event $event)
     {
         $event->close_election_at = now();
-        $events->is_open = false;
+        $event->is_open = false;
         $event->save();
 
         return response()->json(['message' => 'Event close date has set successfully']);

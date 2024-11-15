@@ -20,9 +20,8 @@ return [
 
     // Tambahkan semua domain frontend yang terhubung
     'allowed_origins' => [
-        'https://pemira-zeta.vercel.app',
-        'http://localhost:3000',
-        'https://pemira.sandboxdevlab.com'
+        'https://pemira.sandboxdevlab.com',
+        'https://pemira-zeta.vercel.app',  // If you still want to allow this origin
     ],
 
     'allowed_origins_patterns' => [],
