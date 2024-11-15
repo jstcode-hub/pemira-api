@@ -5,9 +5,9 @@ use Laravel\Sanctum\Sanctum;
 return [
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     | Stateful Domains
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     |
     | Requests from the following domains / hosts will receive stateful API
     | authentication cookies. Typically, these should include your local
@@ -16,15 +16,15 @@ return [
     */
 
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1' . Sanctum::currentApplicationUrlWithPort()
+        '%s,%s',
+        'pemira.sandboxdevlab.com', // Frontend domain
+        'api-pemira.sandboxdevlab.com' // Backend domain
     ))),
 
-
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     | Sanctum Guards
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     |
     | This array contains the authentication guards that will be checked when
     | Sanctum is trying to authenticate a request. If none of these guards
@@ -33,12 +33,12 @@ return [
     |
     */
 
-    'guard' => ['web'],
+    'guard' => ['web'], // Keep this if you're using session-based authentication, otherwise use 'api'
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     | Expiration Minutes
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     |
     | This value controls the number of minutes until an issued token will be
     | considered expired. If this value is null, personal access tokens do
@@ -46,12 +46,12 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => null, // Set an expiration time (in minutes) if required
 
     /*
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     | Sanctum Middleware
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
     |
     | When authenticating your first-party SPA with Sanctum you may need to
     | customize some of the middleware Sanctum uses while processing the
@@ -60,7 +60,7 @@ return [
     */
 
     'middleware' => [
-        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
+        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class, // Enable if necessary
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
