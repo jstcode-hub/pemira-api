@@ -20,6 +20,7 @@ return [
     'allowed_origins' => [
         'https://pemira.sandboxdevlab.com',
         'https://pemira-zeta.vercel.app',
+        'http://localhost:3000',
     ],
 
     'allowed_origins_patterns' => [],

@@ -11,6 +11,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
 use App\Exports\BallotExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -92,31 +93,33 @@ class EventController extends Controller
         return response()->json(['message' => 'Event updated successfully']);
     }
 
-    public function OpenElection(Request $request, $event)
+    public function OpenElection(Request $request, Event $event)
     {
-
-        $events = Event::find($event);
-
-        if (!$events) {
-            return response()->json(['message' => 'Event not found'], 404);
+        if ($event->is_open) {
+            return response()->json(['message' => 'Election is already open'], 400);
         }
 
-        $events->open_election_at = now();
-        $events->is_open = true;
-        $events->close_election_at = null;
-        $events->save();
+        $event->open_election_at = Carbon::now('Asia/Jakarta');
+        $event->is_open = true;
+        $event->close_election_at = null;
+        $event->save();
 
-        return response()->json(['message' => 'Event open date has set successfully']);
+        return response()->json(['message' => 'Event open date has been set successfully']);
     }
 
     public function CloseElection(Request $request, Event $event)
     {
-        $event->close_election_at = now();
+        if (!$event->is_open) {
+            return response()->json(['message' => 'Election is already closed'], 400);
+        }
+
+        $event->close_election_at = Carbon::now('Asia/Jakarta');
         $event->is_open = false;
         $event->save();
 
-        return response()->json(['message' => 'Event close date has set successfully']);
+        return response()->json(['message' => 'Event close date has been set successfully']);
     }
+
 
     public function deleteEvent($event)
     {
