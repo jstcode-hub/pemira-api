@@ -13,20 +13,40 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use App\Http\Resources\Documentation\BallotWithUserDocumentationResource;
+use App\Http\Resources\Documentation\UserDocumentationResource;
 
 class BallotController extends Controller
 {
+     /**
+     * Get Ballots for Event
+     * @description Mengambil semua surat suara (ballots) yang terkait dengan event tertentu.
+     * 
+     * @status 200
+     * @response Ballot[]
+     */
     public function index($event)
     {
         $ballots = Ballot::where('event_id', $event)->get();
         return response()->json($ballots);
     }
 
+     /**
+     * Count Ballots for Event
+     * @description Menghitung jumlah surat suara (ballots) yang terkait dengan event tertentu.
+     * 
+     * @status 200
+     * @response int
+     */
     public function count($event)
-    {
+    { 
         return Ballot::where('event_id', $event)->count();
     }
 
+     /**
+     * Submit Ballot
+     * @description Menyimpan data surat suara baru dengan validasi data kandidat, divisi, serta mengunggah gambar KTM dan verifikasi.
+     */
     public function store(Request $request, $event)
     {
         $closedEvent = Event::where('id', $event)->whereNotNull('close_election_at')->first();
@@ -108,6 +128,10 @@ class BallotController extends Controller
         return response()->json(['message' => 'ballot created successfully']);
     }
 
+     /**
+     * Accept Ballot
+     * @description Menerima dan memvalidasi surat suara yang diajukan untuk event tertentu.
+     */
     public function accept(Request $request, Event $event, Ballot $ballot)
     {
         $ballot->accepted = 1;
@@ -117,6 +141,10 @@ class BallotController extends Controller
         return response()->json(['message' => 'ballot accepted successfully']);
     }
 
+     /**
+     * Reject Ballot
+     * @description  Menolak surat suara yang diajukan dan memberikan status penolakan.
+     */
     public function reject(Request $request, Event $event, Ballot $ballot)
     {
         $ballot->accepted = 0;
@@ -126,6 +154,13 @@ class BallotController extends Controller
         return response()->json(['message' => 'ballot rejected successfully']);
     }
 
+     /**
+     * Get Next Ballot for Verification
+     * @description Mengambil surat suara berikutnya yang belum diverifikasi berdasarkan waktu pengumpulan.
+     * 
+     * @status 200
+     * @response BallotWithUserDocumentationResource
+     */
     public function next(Event $event)
     {
         return Ballot::query()
@@ -136,11 +171,25 @@ class BallotController extends Controller
             ->firstOrFail();
     }
 
+     /**
+     * Get User Ballot
+     * @description  Mengambil data surat suara yang diajukan oleh pengguna yang sedang login.
+     * 
+     * @status 200
+     * @response Ballot
+     */
     public function user(Request $request)
     {
         return Ballot::query()->where('npm', $request->user()->npm)->firstOrFail();
     }
 
+     /**
+     * Get Latest Ballots for Event
+     * @description : Mengambil 10 surat suara terbaru yang diajukan untuk event tertentu.
+     * 
+     * @status 200
+     * @response BallotWithUserDocumentationResource[]
+     */
     public function latest(Event $event)
     {
         return Ballot::query()
@@ -151,6 +200,13 @@ class BallotController extends Controller
             ->get();
     }
 
+    /**
+     * Get Previous Ballot
+     * @description Mengambil surat suara sebelumnya berdasarkan ID dalam event tertentu.
+     * 
+     * @status 200
+     * @response BallotWithUserDocumentationResource
+     */
     public function previous(Event $event, Ballot $ballot)
     {
         return Ballot::query()
@@ -161,6 +217,13 @@ class BallotController extends Controller
             ->firstOrFail();
     }
 
+     /**
+     * Get Latest Ballot
+     * @description Mengambil surat suara terbaru yang diajukan untuk event tertentu.
+     * 
+     * @status 200
+     * @response BallotWithUserDocumentationResource
+     */
     public function latestBallot(Event $event)
     {
         return Ballot::query()

@@ -6,9 +6,17 @@ use App\Models\Division;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Documentation\DivisioinWithCountCandidateDocumentationResource;
 
 class DivisionController extends Controller
 {
+     /**
+     * Get Divisions by Event
+     * @description 
+     * 
+     * @status 200
+     * @response DivisioinWithCountCandidateDocumentationResource[]
+     */
     public function index($id)
     {
         $divisions = Division::query()
@@ -23,6 +31,13 @@ class DivisionController extends Controller
         return response()->json($divisions);
     }
 
+     /**
+     * Get Division Details
+     * @description Mengambil detail divisi berdasarkan ID event dan ID divisi.
+     * 
+     * @status 200
+     * @response Division
+     */
     public function show($event, $id)
     {
         $division = Division::where('event_id', $event)->where('id', $id)->firstOrFail();
@@ -30,6 +45,10 @@ class DivisionController extends Controller
         return response()->json($division);
     }
 
+     /**
+     * Create New Division
+     * @description Membuat divisi baru untuk suatu event.
+     */
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -44,6 +63,10 @@ class DivisionController extends Controller
         return response()->json(['message' => 'Division created successfully']);
     }
 
+     /**
+     * Update Division
+     * @description Memperbarui data divisi berdasarkan ID event dan ID divisi.
+     */
     public function update(Request $request, $event, $id)
     {
         $request->validate([
@@ -64,6 +87,10 @@ class DivisionController extends Controller
         return response()->json(['message' => 'Division updated successfully']);
     }
 
+     /**
+     * Delete Division
+     * @description Mengambil daftar kandidat berdasarkan ID event dan, jika diberikan, filter berdasarkan division ID.
+     */
     public function destroy($event, $id)
     {
         $division = Division::where('event_id', $event)->where('id', $id)->first();

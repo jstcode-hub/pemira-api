@@ -12,6 +12,10 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    /**
+     * Login User
+     * @description Mengautentikasi pengguna melalui email/password atau token akses Google. Mendukung login untuk akun Google UPN dan validasi NPM.
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -68,13 +72,25 @@ class AuthController extends Controller
         return $user;
     }
 
-    public function Callback()
+     /**
+     * Google OAuth Callback (Debugging)
+     * @description Mengambil data pengguna dari Google OAuth setelah otentikasi. (Biasanya digunakan untuk proses debug atau pengembangan.)
+     */
+    public function callback()
     {
-        $user = Socialite::driver('google')->user();
-
-        dd($user);
+        // $user = Socialite::driver('google')->user();
+        
+        // dd($user);
+        return Socialite::driver('google')->user();
     }
 
+     /**
+     * Get Authenticated User
+     * @description Mengambil data pengguna yang sedang login melalui token autentikasi.
+     * 
+     * @status 200
+     * @response User[]
+     */
     public function user()
     {
         return Auth::user();
