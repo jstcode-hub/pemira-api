@@ -28,7 +28,7 @@
 
 <IfModule mod_headers.c>
     # Izinkan CORS hanya untuk domain tertentu
-    Header set Access-Control-Allow-Origin "https://pemira-zeta.vercel.app"
+    Header set Access-Control-Allow-Origin "https://pemira.sandboxdevlab.com"
     Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, X-XSRF-TOKEN, Authorization, X-Requested-With, cache-control"
     Header set Access-Control-Allow-Credentials "true"
