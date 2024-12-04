@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         [$username, $domain] = explode('@', $providerUser->email);
 
-        $whitelistPrefixes = ['20', '21', '22', '23'];
+        $whitelistPrefixes = ['21', '22', '23', '24'];
 
         if (strpos($domain, 'student.upnjatim.ac.id') === false)
             return response()->json(['message' => 'Maaf, kamu harus menggunakan akun google UPN!'], 400);
