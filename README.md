@@ -95,7 +95,17 @@ To make public storage accessible, create a symbolic link with the following com
 php artisan storage:link
 ```
 
-### 9. Start the Laravel Server
+### 9. Analyze API Documentation
+
+To generate and analyze API documentation using dedoc/scramble, run the following command:
+
+```bash
+php artisan scramble:analyze
+```
+
+This will parse your controllers and generate documentation accessible at the specified endpoint during development.
+
+### 10. Start the Laravel Server
 
 After everything is set up, start the Laravel server locally with:
 
@@ -104,6 +114,18 @@ php artisan serve
 ```
 
 The app will be running at [http://localhost:8000](http://localhost:8000).
+
+---
+
+## 📚 API Documentation
+
+During development, the API documentation is accessible at:
+
+```bash
+/docs/api
+```
+
+Visit [http://localhost:8000/docs/api](http://localhost:8000/docs/api) while the server is running to explore the available endpoints and their usage.
 
 ---
 
