@@ -18,7 +18,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        'http://pemiraif.com',
+        'https://pemiraif.com',
         'https://pemira.sandboxdevlab.com',
         'https://pemira-zeta.vercel.app',
         'http://localhost:3000',

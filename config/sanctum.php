@@ -18,7 +18,7 @@ return [
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s,%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        'sandboxdevlab.com,pemira.sandboxdevlab.com,api-pemira.sandboxdevlab.com,pemira-zeta.vercel.app' . Sanctum::currentApplicationUrlWithPort()
+        'pemiraif.com,api.pemiraif.com,sandboxdevlab.com,pemira.sandboxdevlab.com,api-pemira.sandboxdevlab.com,pemira-zeta.vercel.app' . Sanctum::currentApplicationUrlWithPort()
     ))),
 
     /*
