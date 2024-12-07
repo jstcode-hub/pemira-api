@@ -13,24 +13,25 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'], // Menentukan path yang diizinkan untuk CORS
 
-    'allowed_methods' => ['*'],
+    'allowed_methods' => ['*'], // Mengizinkan semua metode HTTP (GET, POST, PUT, DELETE, OPTIONS)
 
     'allowed_origins' => [
-        'https://pemiraif.com',
-        'https://pemira.sandboxdevlab.com',
-        'https://pemira-zeta.vercel.app',
-        'http://localhost:3000',
+        'https://pemira.sandboxdevlab.com', // Menambahkan subdomain frontend yang benar
+        'https://pemira-zeta.vercel.app', // Menambahkan subdomain frontend lain jika diperlukan
+        'http://localhost:3000', // Untuk pengembangan lokal
+        'https://pemiraif.com'
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [], // Tidak ada pola khusus untuk origin yang diperbolehkan
 
-    'allowed_headers' => ['*'],
+    'allowed_headers' => ['*'], // Mengizinkan semua header (misalnya X-XSRF-TOKEN, Authorization)
 
-    'exposed_headers' => ['X-XSRF-TOKEN'],
+    'exposed_headers' => ['X-XSRF-TOKEN'], // Mengekspos header X-XSRF-TOKEN untuk diakses oleh frontend
 
-    'max_age' => 3600,
+    'max_age' => 3600, // Durasi cache CORS dalam detik
 
-    'supports_credentials' => true,
+    'supports_credentials' => true, // Mendukung pengiriman kredensial (cookies, Authorization header)
+
 ];
