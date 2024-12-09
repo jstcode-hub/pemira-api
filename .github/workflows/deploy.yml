@@ -1,49 +1,85 @@
-name: Laravel CI/CD with GitHub Actions to Shared Hosting
+# name: Laravel CI/CD to VPS
 
-on:
-  push:
-    branches:
-      - main 
-      
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# on:
+#   push:
+#     branches:
+#       - main # Hanya akan berjalan jika ada perubahan di branch 'main'
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.1" 
-          extensions: mbstring, bcmath, xml
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#       - name: Set up PHP
+#         uses: shivammathur/setup-php@v2
+#         with:
+#           php-version: "8.1" # Sesuaikan dengan versi PHP yang dibutuhkan aplikasi Laravel Anda
+#           extensions: mbstring, bcmath, xml # Extension yang dibutuhkan oleh Laravel
 
-      - name: Set up SSH
-        run: |
-          mkdir ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  
-          chmod 600 ~/.ssh/id_rsa  
-          ssh-keyscan -p 65002 153.92.11.126 >> ~/.ssh/known_hosts
+#       # Cache Composer dependencies untuk mempercepat instalasi
+#       - name: Cache Composer dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: vendor
+#           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#           restore-keys: |
+#             ${{ runner.os }}-composer-
 
-      - name: Deploy to Shared Hosting
-        run: |
-          ssh -p 65002 -o StrictHostKeyChecking=no u531289105@153.92.11.126 "
-            cd /home/u531289105/public_html/pemira-api &&
-            git pull origin main &&
-            composer install --no-interaction --prefer-dist &&
-            php artisan migrate --force &&
-            php artisan config:clear &&
-            php artisan cache:clear &&
-            php artisan route:clear &&
-            php artisan config:cache
-          "
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#   deploy:
+#     runs-on: ubuntu-latest
+#     needs: build # Deploy akan dilakukan setelah build selesai
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v3
+
+#       # Setup SSH untuk koneksi ke VPS
+#       - name: Set up SSH
+#         run: |
+#           mkdir -p ~/.ssh
+#           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa  # Private key SSH untuk VPS
+#           chmod 600 ~/.ssh/id_rsa  # Memberikan permission yang tepat untuk private key
+#           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts  # Menambahkan VPS ke known_hosts
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#           SSH_HOST: ${{ secrets.SSH_HOST }}
+
+#       # Deploy aplikasi Laravel ke VPS
+#       - name: Deploy Laravel to VPS
+#         run: |
+#           ssh $SSH_USER@$SSH_HOST << 'EOF'
+#             set -e  # Jika ada error, skrip akan berhenti
+
+#             # Masuk ke direktori aplikasi Laravel
+#             cd /path/to/your/laravel-app  # Ganti dengan path yang sesuai di VPS
+
+#             # Pull perubahan terbaru dari GitHub
+#             git pull origin main
+
+#             # Install dependensi menggunakan Composer
+#             composer install --no-dev --optimize-autoloader --prefer-dist
+
+#             # Jalankan migrasi database jika ada
+#             php artisan migrate --force
+
+#             # Clear dan cache konfigurasi Laravel
+#             php artisan config:clear
+#             php artisan cache:clear
+#             php artisan route:clear
+#             php artisan config:cache
+
+#             # Set permission pada folder storage dan cache
+#             sudo chown -R www-data:www-data storage bootstrap/cache
+#             sudo chmod -R 775 storage bootstrap/cache
+
+#             # Restart aplikasi menggunakan PM2 (jika menggunakan queue atau worker)
+#             pm2 restart laravel-app || pm2 start artisan --name laravel-app -- run queue:work
+
+#             echo "Deployment completed successfully!"
+#           EOF
+#         env:
+#           SSH_USER: ${{ secrets.SSH_USER }}
+#           SSH_HOST: ${{ secrets.SSH_HOST }}
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

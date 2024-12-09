@@ -138,19 +138,26 @@ class EventController extends Controller
      * Open Election for Event
      * @description Membuka proses pemilihan untuk sebuah event tertentu.
      */
-    public function OpenElection(Request $request, Event $event)
+    public function OpenElection(Request $request, $event)
     {
-        if ($event->is_open) {
+        $events = Event::find($event);
+
+        if (!$events) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
+        if ($events->is_open) {
             return response()->json(['message' => 'Election is already open'], 400);
         }
 
-        $event->open_election_at = Carbon::now('Asia/Jakarta');
-        $event->is_open = true;
-        $event->close_election_at = null;
-        $event->save();
+        $events->open_election_at = Carbon::now('Asia/Jakarta');
+        $events->is_open = true;
+        $events->close_election_at = null;
+        $events->save();
 
         return response()->json(['message' => 'Event open date has been set successfully']);
     }
+
 
 
     /**
@@ -159,6 +166,12 @@ class EventController extends Controller
      */
     public function CloseElection(Request $request, Event $event)
     {
+        // $events = Event::find($event);
+
+        if (!$event) {
+            return response()->json(['message' => 'Event not found'], 404);
+        }
+
         if (!$event->is_open) {
             return response()->json(['message' => 'Election is already closed'], 400);
         }
@@ -169,6 +182,7 @@ class EventController extends Controller
 
         return response()->json(['message' => 'Event close date has been set successfully']);
     }
+
 
     /**
      * Delete Event
