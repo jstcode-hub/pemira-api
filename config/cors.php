@@ -21,6 +21,7 @@ return [
         'https://pemira.sandboxdevlab.com', // Menambahkan subdomain frontend yang benar
         'https://pemira-zeta.vercel.app', // Menambahkan subdomain frontend lain jika diperlukan
         'http://localhost:3000', // Untuk pengembangan lokal
+        'https://pemiraif.com'
     ],
 
     'allowed_origins_patterns' => [], // Tidak ada pola khusus untuk origin yang diperbolehkan

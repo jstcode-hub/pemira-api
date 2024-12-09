@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class CandidatesController extends Controller
 {
+     /**
+     * Get Candidates by Event
+     * @description Mengambil daftar kandidat berdasarkan ID event dan, jika diberikan, filter berdasarkan division ID.
+     * 
+     * @status 200
+     * @response Candidate[]
+     */
     public function index($id, Request $request)
     {
         $query = Candidate::query()->where('event_id', $id);
@@ -21,6 +28,10 @@ class CandidatesController extends Controller
         return $query->get();
     }
 
+     /**
+     * Create New Candidate
+     * @description Membuat kandidat baru untuk suatu event dengan detail kandidat, seperti visi, misi, dan gambar.
+     */
     public function store(Request $request, $id)
     {
         $request->validate([
@@ -64,6 +75,10 @@ class CandidatesController extends Controller
         return response()->json(['message' => 'Candidate created successfully']);
     }
 
+     /**
+     * Update Candidate
+     * @description Memperbarui data kandidat berdasarkan ID event dan ID kandidat, termasuk mengubah gambar jika diperlukan.
+     */
     public function update(Request $request, $event, $id)
     {
         $request->validate([
@@ -111,11 +126,22 @@ class CandidatesController extends Controller
         return response()->json(['message' => 'Candidate updated successfully']);
     }
 
+     /**
+     * Get Candidate Details
+     * @description Mengambil detail lengkap kandidat berdasarkan ID event dan ID kandidat.
+     * 
+     * @status 200
+     * @response Candidate
+     */
     public function show($event, $candidate)
     {
         return Candidate::where('event_id', $event)->where('id', $candidate)->firstOrFail();
     }
 
+     /**
+     * Delete Candidate
+     * @description Menghapus kandidat berdasarkan ID event dan ID kandidat.
+     */
     public function destroy($event, $candidate)
     {
         $candidate = Candidate::find($candidate);
@@ -129,6 +155,13 @@ class CandidatesController extends Controller
         return response()->json(['message' => 'candidate deleted successfully']);
     }
 
+     /**
+     * Get Candidates with Accepted Ballots
+     * @description Mengambil daftar kandidat yang memiliki surat suara yang diterima untuk suatu event.
+     * 
+     * @status 200
+     * @response Candidate[]
+     */
     public function ballots($id)
     {
         $candidates = Candidate::where('event_id', $id)
