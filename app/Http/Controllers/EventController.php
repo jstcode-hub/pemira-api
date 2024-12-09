@@ -55,7 +55,7 @@ class EventController extends Controller
             "organizers_count" => $organizers_count
         ]);
     }
-    
+
     /**
      * Download Ballots Data
      * @description Mengunduh data hasil pemilihan dalam format Excel untuk event tertentu.
@@ -89,7 +89,7 @@ class EventController extends Controller
         return response()->json(['message' => 'Event created successfully']);
     }
 
-     /**
+    /**
      * Display a Event.
      * @description Menampilkan informasi detail tentang event tertentu.
      * 
@@ -138,7 +138,7 @@ class EventController extends Controller
      * Open Election for Event
      * @description Membuka proses pemilihan untuk sebuah event tertentu.
      */
-    public function OpenElection(Request $request, $event)
+    public function OpenElection(Request $request, Event $event)
     {
         if ($event->is_open) {
             return response()->json(['message' => 'Election is already open'], 400);
@@ -151,6 +151,7 @@ class EventController extends Controller
 
         return response()->json(['message' => 'Event open date has been set successfully']);
     }
+
 
     /**
      * Close Election for Event
@@ -203,7 +204,7 @@ class EventController extends Controller
             ->get();
     }
 
-     /**
+    /**
      * Get Overall Event Results
      * @description Mengembalikan ringkasan hasil keseluruhan dari pemilihan untuk sebuah event.
      * 
