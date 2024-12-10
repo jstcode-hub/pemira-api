@@ -37,14 +37,15 @@ class AuthController extends Controller
 
         [$username, $domain] = explode('@', $providerUser->email);
 
-        // $whitelistPrefixes = ['21', '22', '23', '24'];
-        $isWhitelisted = WhiteList::where('event_id', 1)->where('npm', $username)->exists();
+        $whitelistPrefixes = ['19', '20', '21', '22', '23', '24'];
+        // $isWhitelisted = WhiteList::where('event_id', 1)->where('npm', $username)->exists();
 
         if (strpos($domain, 'student.upnjatim.ac.id') === false)
             return response()->json(['message' => 'Maaf, kamu harus menggunakan akun google UPN!'], 400);
-        // else if (substr($username, 2, 2) !== '08' || !in_array(substr($username, 0, 2), $whitelistPrefixes))
-        else if (!$isWhitelisted)
-            return response()->json(['message' => 'Maaf, akun ini tidak terdaftar untuk mencoblos!'], 400);
+        else if (substr($username, 2, 2) !== '08' || !in_array(substr($username, 0, 2), $whitelistPrefixes))
+            return response()->json(['message' => 'Maaf, akun tersebut tidak memenuhi syarat untuk mencoblos!'], 400);
+        // else if (!$isWhitelisted)
+        //     return response()->json(['message' => 'Maaf, akun ini tidak terdaftar untuk mencoblos!'], 400);
 
         $user = User::query()->find(strtok($providerUser->email, '@'));
 
