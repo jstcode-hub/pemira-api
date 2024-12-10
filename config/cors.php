@@ -18,8 +18,7 @@ return [
     'allowed_methods' => ['*'], // Mengizinkan semua metode HTTP (GET, POST, PUT, DELETE, OPTIONS)
 
     'allowed_origins' => [
-        'https://pemira.sandboxdevlab.com', // Menambahkan subdomain frontend yang benar
-        'https://pemira-zeta.vercel.app', // Menambahkan subdomain frontend lain jika diperlukan
+        'http://192.168.96.47:3000',
         'http://localhost:3000', // Untuk pengembangan lokal
         'https://pemiraif.com'
     ],
