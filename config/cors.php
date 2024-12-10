@@ -18,7 +18,6 @@ return [
     'allowed_methods' => ['*'], // Mengizinkan semua metode HTTP (GET, POST, PUT, DELETE, OPTIONS)
 
     'allowed_origins' => [
-        'http://192.168.96.47:3000',
         'http://localhost:3000', // Untuk pengembangan lokal
         'https://pemiraif.com'
     ],
